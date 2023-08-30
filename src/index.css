@@ -4,6 +4,8 @@
   --secondary-color: #ffffff;
   --primary-bg: #1c62cd;
   --secondary-bg: #f0f0f4;
+
+  --container-width: 900px;
 }
 
 html {
@@ -54,7 +56,7 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 15px;
 }

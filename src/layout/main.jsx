@@ -20,6 +20,7 @@ export class Main extends Component {
     fetch(url)
       .then((response) => response.json())
       .then((data) => this.setState({movies: data.Search}));
+      
   }
 
   render() {

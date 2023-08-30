@@ -1,7 +1,8 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --primary-color: #2F3035;
-  --accent-bg: #1c62cd;
+  --secondary-color: #ffffff;
+  --primary-bg: #1c62cd;
   --secondary-bg: #f0f0f4;
 }
 
@@ -53,7 +54,7 @@ body {
 }
 
 .container {
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 15px;
 }

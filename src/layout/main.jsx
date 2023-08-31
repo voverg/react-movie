@@ -1,6 +1,10 @@
 import { Component } from 'react';
+
 import { MovieList } from '../components/movie-list.jsx';
 import { Loader } from '../components/loader.jsx';
+import { Search } from '../components/search.jsx';
+
+import { Api } from '../servises/api.js';
 
 export class Main extends Component {
   constructor(props) {
@@ -8,28 +12,30 @@ export class Main extends Component {
     this.state = {
       movies: [],
     };
-    this.apiKey = 'faadd693';
-    this.baseURL = 'http://www.omdbapi.com/';
+    // this.apiKey = 'faadd693';
+    // this.baseURL = 'http://www.omdbapi.com/';
   }
 
   componentDidMount() {
+    this.api = new Api();
     const movieName = 'matrix';
-    const url = `${this.baseURL}?apikey=${this.apiKey}&s=${movieName}`;
-    // const url = 'http://www.omdbapi.com/?apikey=faadd693&s=matrix';
+    this.api.getMovies(movieName).then((data) => this.setState({movies: data}));
+  }
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => this.setState({movies: data.Search}));
-      
+  onSearch = (movieName) => {
+    this.api.getMovies(movieName).then((data) => this.setState({movies: data}));
   }
 
   render() {
     const {movies} = this.state;
-    const content = movies.length ? <MovieList movies={movies} /> : <Loader />;
+    const moviesContent = movies.length ? <MovieList movies={movies} /> : <Loader />;
           
     return (
       <main className="main">
-        <div className="container">{content}</div>
+        <div className="container">
+          <Search onSearch={this.onSearch} />
+          {moviesContent}
+        </div>
       </main>
     );
   }

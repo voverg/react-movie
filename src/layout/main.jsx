@@ -11,24 +11,25 @@ export class Main extends Component {
     super(props);
     this.state = {
       movies: [],
+      loading: true,
     };
-    // this.apiKey = 'faadd693';
-    // this.baseURL = 'http://www.omdbapi.com/';
   }
 
   componentDidMount() {
     this.api = new Api();
     const movieName = 'matrix';
-    this.api.getMovies(movieName).then((data) => this.setState({movies: data}));
+    const type = '';
+    this.api.getMovies(movieName, type).then((data) => this.setState({movies: data, loading: false}));
   }
 
-  onSearch = (movieName) => {
-    this.api.getMovies(movieName).then((data) => this.setState({movies: data}));
+  onSearch = (movieName, type) => {
+    this.setState({loading: true});
+    this.api.getMovies(movieName, type).then((data) => this.setState({movies: data, loading: false}));
   }
 
   render() {
-    const {movies} = this.state;
-    const moviesContent = movies.length ? <MovieList movies={movies} /> : <Loader />;
+    const {movies, loading} = this.state;
+    const moviesContent = loading  ? <Loader /> : <MovieList movies={movies} />;
           
     return (
       <main className="main">

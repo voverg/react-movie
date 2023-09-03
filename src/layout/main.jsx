@@ -4,7 +4,7 @@ import { MovieList } from '../components/movie-list.jsx';
 import { Loader } from '../components/loader.jsx';
 import { Search } from '../components/search.jsx';
 
-import { Api } from '../servises/api.js';
+import { Api } from '../services/api.js';
 
 export class Main extends Component {
   constructor(props) {

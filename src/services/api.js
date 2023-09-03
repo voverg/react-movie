@@ -2,7 +2,6 @@ export class Api {
   constructor() {
     this.baseURL = 'https://www.omdbapi.com/';
     this.apiKey = import.meta.env.VITE_API_KEY;
-    // this.apiKey = 'faadd693';
   }
 
   getResource = async (url) => {

@@ -1,17 +1,34 @@
 export class Api {
   constructor() {
-    this.baseURL = 'http://www.omdbapi.com/';
-    this.apiKey = 'faadd693';
+    this.baseURL = 'https://www.omdbapi.com/';
+    this.apiKey = import.meta.env.VITE_API_KEY;
+    // this.apiKey = 'faadd693';
   }
 
-  async getMovies (name, type = '') {
-    const url = `${this.baseURL}?apikey=${this.apiKey}&s=${name}&type=${type}`;
+  getResource = async (url) => {
+    const fullUrl = `${this.baseURL}?apikey=${this.apiKey}${url}`;
 
-    const data = await fetch(url)
-      .then((response) => response.json())
-      .then((data) => data.Search);
+    try {
+      const resource = await fetch(fullUrl).then((response) => response.json())
+      return resource;
+    } catch(error) {
+      console.log(`Error fetch to url ${url}`);
+    }
 
-    return data;
+  }
+
+  getMovies = async (name, type = '') => {
+    const url = `&s=${name}&type=${type}`;
+
+    const data = this.getResource(url)
+      .then((data) => {
+        return {
+          movieList: data?.Search ? data.Search : [],
+          totalResults: data?.totalResults ? data.totalResults : 0,
+        };
+      });
+
+      return data;
   }
 
 }

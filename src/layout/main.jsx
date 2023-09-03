@@ -11,6 +11,7 @@ export class Main extends Component {
     super(props);
     this.state = {
       movies: [],
+      totalResults: 0,
       loading: true,
     };
   }
@@ -19,12 +20,16 @@ export class Main extends Component {
     this.api = new Api();
     const movieName = 'matrix';
     const type = '';
-    this.api.getMovies(movieName, type).then((data) => this.setState({movies: data, loading: false}));
+    this.api.getMovies(movieName, type).then((data) => {
+      this.setState({movies: data.movieList, totalResults: +data.totalResults, loading: false});
+    });
   }
 
   onSearch = (movieName, type) => {
     this.setState({loading: true});
-    this.api.getMovies(movieName, type).then((data) => this.setState({movies: data, loading: false}));
+    this.api.getMovies(movieName, type).then((data) => {
+      this.setState({movies: data.movieList, totalResults: +data.totalResults, loading: false});
+    });
   }
 
   render() {

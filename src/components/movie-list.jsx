@@ -1,7 +1,7 @@
 import { MovieItem } from './movie-item.jsx';
 
 export function MovieList(props) {
-  const {movies = []} = props;
+  const {movies} = props;
 
   return (
     <div className="movie__list">

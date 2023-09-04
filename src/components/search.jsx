@@ -31,7 +31,6 @@ export function Search({onSearch}) {
             className="search__input"
             value={search}
             placeholder="search..."
-            // onChange={(event) => setSearch(event.target.value)}
             onChange={handleSearch}
           />
           <button type="submit" className="search__btn">Search</button>

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { MovieList } from '../components/movie-list.jsx';
 import { Loader } from '../components/loader.jsx';
@@ -6,44 +6,46 @@ import { Search } from '../components/search.jsx';
 
 import { Api } from '../services/api.js';
 
-export class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movies: [],
-      totalResults: 0,
-      loading: true,
-    };
+export function Main() {
+  const [movies, setMovies] = useState([]);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const apiRef = new Api();
+
+  const getMovies = (movieName, type) => {
+    apiRef.getMovies(movieName, type)
+      .then((data) => {
+        setMovies(data.movieList);
+        setTotalResults(+data.totalResults);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   }
 
-  componentDidMount() {
-    this.api = new Api();
+  const onSearch = (movieName, type) => {
+    setLoading(false);
+    getMovies(movieName, type);
+  }
+
+  useEffect(() => {
     const movieName = 'cat';
     const type = '';
-    this.api.getMovies(movieName, type).then((data) => {
-      this.setState({movies: data.movieList, totalResults: +data.totalResults, loading: false});
-    });
-  }
+    getMovies(movieName, type);
+  }, []);
 
-  onSearch = (movieName, type) => {
-    this.setState({loading: true});
-    this.api.getMovies(movieName, type).then((data) => {
-      this.setState({movies: data.movieList, totalResults: +data.totalResults, loading: false});
-    });
-  }
+  return (
+    <main className="main">
+      <div className="container">
+        <Search onSearch={onSearch} />
+        {loading
+          ? <Loader />
+          : <MovieList movies={movies} />}
+      </div>
+    </main>
+  );
 
-  render() {
-    const {movies, loading} = this.state;
-    const moviesContent = loading  ? <Loader /> : <MovieList movies={movies} />;
-          
-    return (
-      <main className="main">
-        <div className="container">
-          <Search onSearch={this.onSearch} />
-          {moviesContent}
-        </div>
-      </main>
-    );
-  }
 }
 

@@ -1,74 +1,72 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class Search extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: '',
-      type: '',
-    };
-  }
+export function Search({onSearch}) {
+  const [search, setSearch] = useState('');
+  const [type, setType] = useState('');
 
-  onSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    this.props.onSearch(this.state.search, this.state.type);
-    // this.setState({search: ''});
+    onSearch(search, type);
+    // setSearch('');
   }
 
-  handleChange = (event) => {
-    this.setState({[event.target.name]: event.target.value});
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
   }
 
-  render() {
-    return (
-      <div className="search">
-        <form
-          className="search__form"
-          onSubmit={this.onSubmit}
-        >
-          <div className="search__top">
+  const handleType = (event) => {
+    setType(event.target.value);
+  }
+
+  return (
+    <div className="search">
+      <form
+        className="search__form"
+        onSubmit={onSubmit}
+      >
+        <div className="search__top">
+          <input
+            type="search"
+            name="search"
+            className="search__input"
+            value={search}
+            placeholder="search..."
+            // onChange={(event) => setSearch(event.target.value)}
+            onChange={handleSearch}
+          />
+          <button type="submit" className="search__btn">Search</button>
+        </div>
+        <div className="search__bottom">
+          <label>
             <input
-              type="search"
-              name="search"
-              className="search__input"
-              value={this.state.search}
-              placeholder="search..."
-              // onChange={(event) => this.setState({search: event.target.value})}
-              onChange={this.handleChange}
-            />
-            <button type="submit" className="search__btn">Search</button>
-          </div>
-          <div className="search__bottom">
-            <label>
-              <input
-                type="radio"
-                name="type"
-                value=""
-                checked={this.state.type === ''}
-                onChange={this.handleChange}
-              /> All
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="type"
-                value="movie"
-                checked={this.state.type === 'movie'}
-                onChange={this.handleChange}
-              /> Movies
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="type"
-                value="series"
-                checked={this.state.type === 'series'}
-                onChange={this.handleChange}
-              /> Series
-            </label>
-          </div>
-        </form>
-      </div>
-    );
-  }
+              type="radio"
+              name="type"
+              value=""
+              checked={type === ''}
+              onChange={handleType}
+            /> All
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="type"
+              value="movie"
+              checked={type === 'movie'}
+              onChange={handleType}
+            /> Movies
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="type"
+              value="series"
+              checked={type === 'series'}
+              onChange={handleType}
+            /> Series
+          </label>
+        </div>
+      </form>
+    </div>
+  );
+
 }

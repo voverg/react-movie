@@ -18,7 +18,7 @@ export class Main extends Component {
 
   componentDidMount() {
     this.api = new Api();
-    const movieName = 'matrix';
+    const movieName = 'cat';
     const type = '';
     this.api.getMovies(movieName, type).then((data) => {
       this.setState({movies: data.movieList, totalResults: +data.totalResults, loading: false});
